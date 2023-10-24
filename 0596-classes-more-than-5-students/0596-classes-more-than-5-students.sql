@@ -1,3 +1,5 @@
-select class from courses
-group by class
-having count(*)>=5;
+select distinct class 
+from courses s
+   where (select count(*)
+            from courses
+            where class=s.class)>=5;
