@@ -1,8 +1,8 @@
-# Write your MySQL query statement below
-with cte as(
-    select *,dense_rank()over(partition by product_id order by year)as rnk
-    from sales
 
-)select product_id,year as first_year, quantity, price
-from cte
-where rnk=1
+select s.product_id,s.year as first_year,s.quantity,s.price
+from sales s
+join(
+select product_id,min(year)as year 
+from sales
+group by product_id) x
+on x.product_id=s.product_id and s.year=x.year
